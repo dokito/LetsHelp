@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,13 +22,13 @@ public class Cause extends BaseEntity {
             mappedBy = "cause",
             cascade = CascadeType.ALL
     )
-    private List<Fundraising> fundraisings;
+    private List<Fundraising> fundraisings = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "cause",
             cascade = CascadeType.ALL
     )
-    private List<CharityEvent> charityEvents;
+    private List<CharityEvent> charityEvents = new ArrayList<>();
 
     private String requirements;
 }
