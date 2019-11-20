@@ -7,6 +7,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "charity_event")
@@ -30,10 +32,17 @@ public class CharityEvent extends BaseEntity {
     private LocalDateTime endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_in_need_name")
+    @JoinColumn(name = "person_in_need_id")
     private PersonInNeed personInNeed;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cause_name")
+    @JoinColumn(name = "cause_id")
     private Cause cause;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User responsiblePerson;
+
+    @ManyToMany(mappedBy = "eventsParticipating") //This creates a table for Users participating in event
+    private List<User> participantsInEvent = new ArrayList<>();
 }

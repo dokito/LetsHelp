@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,4 +29,17 @@ public class User extends BaseEntity {
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @OneToMany(
+            mappedBy = "responsiblePerson",
+            cascade = CascadeType.ALL
+    )
+    private List<CharityEvent> eventsResponsible = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "events_participating",
+            joinColumns = @JoinColumn(name = "charity_event_id"),
+            inverseJoinColumns = @JoinColumn(name = "users_id"))
+    private List<CharityEvent> eventsParticipating = new ArrayList<>();
 }
