@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CauserCreateServiceModel {
+public class RoleServiceModel {
 
-    private String name;
-    private String requirements;
+    private String id;
+    private String authority;
 }

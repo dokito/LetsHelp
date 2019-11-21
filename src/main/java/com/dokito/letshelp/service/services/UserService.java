@@ -1,4 +1,9 @@
 package com.dokito.letshelp.service.services;
 
-public interface UserService {
+import com.dokito.letshelp.service.models.UserServiceModel;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+public interface UserService extends UserDetailsService {
+
+    UserServiceModel registerUser(UserServiceModel userServiceModel);
 }

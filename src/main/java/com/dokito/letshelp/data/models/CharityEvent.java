@@ -20,7 +20,7 @@ public class CharityEvent extends BaseEntity {
     @Column(name = "charity_event_name")
     private String name;
 
-    @Column
+    @Column(name = "charity_event_description")
     private String description;
 
     @Column(name = "start_date")

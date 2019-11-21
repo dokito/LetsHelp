@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<th:block th:include="~{fragments/head}"/>
+<body>
+<th:block th:include="~{fragments/header}"/>
+<body>
+<main>
+    <div class="container">
+        <h2 class="text-center">Create a Cause</h2>
+        <form th:action="@{/causes/create}" method="post">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
+            </div>
+            <div class="form-group">
+                <label for="requirements">Requirements:</label>
+                <input type="text" class="form-control" id="requirements" placeholder="Enter requirements" name="requirements">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</main>
+<th:block th:include="~{fragments/footer}" />
+</body>
+</html>

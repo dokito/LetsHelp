@@ -3,6 +3,7 @@ package com.dokito.letshelp.web.controllers;
 import com.dokito.letshelp.service.models.LoginUserServiceModel;
 import com.dokito.letshelp.service.models.auth.RegisterUserServiceModel;
 import com.dokito.letshelp.service.services.AuthService;
+import com.dokito.letshelp.web.controllers.base.BaseController;
 import com.dokito.letshelp.web.models.RegisterUserModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -11,11 +12,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/users")
-public class AuthController {
+public class AuthController extends BaseController {
 
     private final AuthService authService;
     private final ModelMapper mapper;
@@ -39,6 +41,7 @@ public class AuthController {
     public String register(@ModelAttribute RegisterUserModel model) {
         RegisterUserServiceModel serviceModel = mapper.map(model, RegisterUserServiceModel.class);
         authService.register(serviceModel);
+//        request.getSession().setAttribute("user",serviceModel.getUsername());
         return "redirect:/";
     }
 
