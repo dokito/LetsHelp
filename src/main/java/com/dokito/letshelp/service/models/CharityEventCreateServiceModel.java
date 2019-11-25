@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PersonInNeedCreateServiceModel {
+public class CharityEventCreateServiceModel {
 
     private String name;
-    private String descriptionOfNeed;
+    private String description;
 }

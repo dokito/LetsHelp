@@ -1,5 +1,6 @@
 package com.dokito.letshelp.web.controllers;
 
+import com.dokito.letshelp.data.models.User;
 import com.dokito.letshelp.service.models.LoginUserServiceModel;
 import com.dokito.letshelp.service.models.auth.RegisterUserServiceModel;
 import com.dokito.letshelp.service.services.AuthService;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -28,33 +29,36 @@ public class AuthController extends BaseController {
     }
 
     @GetMapping("/login")
-    public String getLoginForm() {
-        return "auth/login.html";
+    public ModelAndView getLoginForm() {
+        return super.view("auth/login.html");
     }
 
     @GetMapping("/register")
-    public String getRegisterForm() {
-        return "auth/register.html";
+    public ModelAndView getRegisterForm() {
+        return super.view("auth/register.html");
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute RegisterUserModel model) {
+    public ModelAndView register(@ModelAttribute RegisterUserModel model) {
         RegisterUserServiceModel serviceModel = mapper.map(model, RegisterUserServiceModel.class);
         authService.register(serviceModel);
 //        request.getSession().setAttribute("user",serviceModel.getUsername());
-        return "redirect:/";
+        return super.redirect("auth/login.html");
     }
 
 
     @PostMapping("/login")
-    public String login(@ModelAttribute RegisterUserModel model, HttpSession session) {
+    public ModelAndView login(@ModelAttribute RegisterUserModel model, HttpSession session) {
         RegisterUserServiceModel serviceModel = mapper.map(model, RegisterUserServiceModel.class);
         try {
             LoginUserServiceModel loginUserServiceModel = authService.login(serviceModel);
             session.setAttribute("user", loginUserServiceModel);
-            return "redirect:/";
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.addObject("user", mapper.map(model, User.class));
+            return super.redirect(".../home.html");
         } catch (Exception ex) {
-            return "redirect:/users/login";
+
+            return super.redirect("auth/login.html");
         }
     }
 }

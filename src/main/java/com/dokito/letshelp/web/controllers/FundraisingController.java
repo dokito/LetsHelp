@@ -1,7 +1,7 @@
 package com.dokito.letshelp.web.controllers;
 
-import com.dokito.letshelp.service.models.CauseCreateServiceModel;
-import com.dokito.letshelp.service.services.CauseService;
+import com.dokito.letshelp.service.models.FundraisingCreateServiceModel;
+import com.dokito.letshelp.service.services.FundraisingService;
 import com.dokito.letshelp.web.controllers.base.BaseController;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -12,25 +12,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/causes")
-public class CausesController extends BaseController {
+@RequestMapping("/fundraisings")
+public class FundraisingController extends BaseController {
 
-    private final CauseService causeService;
+    private final FundraisingService fundraisingService;
     private final ModelMapper mapper;
 
-    public CausesController(CauseService causeService, ModelMapper mapper) {
-        this.causeService = causeService;
+    public FundraisingController(FundraisingService fundraisingService, ModelMapper mapper) {
+        this.fundraisingService = fundraisingService;
         this.mapper = mapper;
     }
 
     @GetMapping("/create")
-    public ModelAndView getCreateCauseForm() {
-        return super.view("causes/create_cause.html");
+    public ModelAndView getCreateFundraisingForm(){
+        return super.view("fundraisings/create_fundraising.html");
     }
 
     @PostMapping("/create")
-    public ModelAndView create(@ModelAttribute CauseCreateServiceModel model) {
-        causeService.create(model);
+    public ModelAndView create(@ModelAttribute FundraisingCreateServiceModel model){
+        fundraisingService.create(model);
         return super.redirect("/");
     }
 }

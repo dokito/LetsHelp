@@ -19,7 +19,7 @@ public class PersonInNeedServiceImpl implements PersonInNeedService {
     }
 
     @Override
-    public PersonInNeed create(PersonInNeedCreateServiceModel serviceModel) {
+    public PersonInNeed register(PersonInNeedCreateServiceModel serviceModel) {
         PersonInNeed person = mapper.map(serviceModel, PersonInNeed.class);
         personInNeedRepository.save(person);
         return person;

@@ -5,5 +5,5 @@ import com.dokito.letshelp.service.models.PersonInNeedCreateServiceModel;
 
 public interface PersonInNeedService {
 
-    PersonInNeed create(PersonInNeedCreateServiceModel serviceModel);
+    PersonInNeed register(PersonInNeedCreateServiceModel serviceModel);
 }
