@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class RoleServiceModel {
+public class RoleServiceModel extends BaseServiceModel {
 
     private String id;
     private String authority;

@@ -1,9 +1,8 @@
 package com.dokito.letshelp.web.controllers;
 
-import com.dokito.letshelp.data.models.User;
 import com.dokito.letshelp.service.models.LoginUserServiceModel;
 import com.dokito.letshelp.service.models.auth.RegisterUserServiceModel;
-import com.dokito.letshelp.service.services.AuthService;
+import com.dokito.letshelp.service.services.UserService;
 import com.dokito.letshelp.web.controllers.base.BaseController;
 import com.dokito.letshelp.web.models.RegisterUserModel;
 import org.modelmapper.ModelMapper;
@@ -18,32 +17,31 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/users")
-public class AuthController extends BaseController {
+public class UserController extends BaseController {
 
-    private final AuthService authService;
+    private final UserService userService;
     private final ModelMapper mapper;
 
-    public AuthController(AuthService authService, ModelMapper mapper) {
-        this.authService = authService;
+    public UserController(UserService userService, ModelMapper mapper) {
+        this.userService = userService;
         this.mapper = mapper;
     }
 
     @GetMapping("/login")
     public ModelAndView getLoginForm() {
-        return super.view("auth/login.html");
+        return super.view("users/login.html");
     }
 
     @GetMapping("/register")
     public ModelAndView getRegisterForm() {
-        return super.view("auth/register.html");
+        return super.view("users/register.html");
     }
 
     @PostMapping("/register")
     public ModelAndView register(@ModelAttribute RegisterUserModel model) {
         RegisterUserServiceModel serviceModel = mapper.map(model, RegisterUserServiceModel.class);
-        authService.register(serviceModel);
-//        request.getSession().setAttribute("user",serviceModel.getUsername());
-        return super.redirect("auth/login.html");
+        userService.register(serviceModel);
+        return super.redirect("/users/login");
     }
 
 
@@ -51,14 +49,12 @@ public class AuthController extends BaseController {
     public ModelAndView login(@ModelAttribute RegisterUserModel model, HttpSession session) {
         RegisterUserServiceModel serviceModel = mapper.map(model, RegisterUserServiceModel.class);
         try {
-            LoginUserServiceModel loginUserServiceModel = authService.login(serviceModel);
+            LoginUserServiceModel loginUserServiceModel = userService.login(serviceModel);
             session.setAttribute("user", loginUserServiceModel);
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject("user", mapper.map(model, User.class));
-            return super.redirect(".../home.html");
+            return super.redirect("/");
         } catch (Exception ex) {
 
-            return super.redirect("auth/login.html");
+            return super.redirect("users/login");
         }
     }
 }

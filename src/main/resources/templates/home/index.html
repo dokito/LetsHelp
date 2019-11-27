@@ -10,6 +10,18 @@
 <main>
     <div class="text-center">
         <h2>Welcome! Let's help! Index </h2>
+        <div th:if="${session.user != null}">
+            <div>[[${session.user.username}]]</div>
+            <div class="align-content-sm-center text-center">
+                <table>
+                    <th:block th:each="auth : ${session.user.authorities}">
+                        <tr>
+                            <td th:text="${auth.getAuthority()}">...</td>
+                        </tr>
+                    </th:block>
+                </table>
+            </div>
+        </div>
     </div>
 </main>
 

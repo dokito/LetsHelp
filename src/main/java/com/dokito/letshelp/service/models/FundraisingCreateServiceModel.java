@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-public class FundraisingCreateServiceModel {
+public class FundraisingCreateServiceModel extends BaseServiceModel{
 
     private String name;
     private BigDecimal requiredSum;

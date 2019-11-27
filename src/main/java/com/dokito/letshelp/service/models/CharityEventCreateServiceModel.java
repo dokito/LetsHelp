@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CharityEventCreateServiceModel {
+public class CharityEventCreateServiceModel extends BaseServiceModel{
 
     private String name;
     private String description;

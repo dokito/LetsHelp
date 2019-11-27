@@ -1,19 +1,20 @@
 package com.dokito.letshelp.service.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class LoginUserServiceModel {
+@AllArgsConstructor
+public class LoginUserServiceModel extends BaseServiceModel {
 
     private String username;
     private String password;
+    private Set<RoleServiceModel> authorities;
 
-    public LoginUserServiceModel(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
 }
