@@ -1,6 +1,6 @@
 package com.dokito.letshelp.web.controllers;
 
-import com.dokito.letshelp.service.models.FundraisingCreateServiceModel;
+import com.dokito.letshelp.service.models.create.FundraisingCreateServiceModel;
 import com.dokito.letshelp.service.services.FundraisingService;
 import com.dokito.letshelp.web.controllers.base.BaseController;
 import org.modelmapper.ModelMapper;

@@ -17,9 +17,9 @@ import javax.persistence.MappedSuperclass;
 public class BaseEntity {
 
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(generator = "UUID-string")
     @GenericGenerator(
-            name = "UUID",
+            name = "UUID-string",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)

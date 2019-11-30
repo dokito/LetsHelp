@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<th:block th:include="~{fragments/head}"/>
+<body>
+<th:block th:include="~{fragments/header}"/>
+
+<main>
+    <table class="table table-hover w-75 mx-auto">
+        <thead>
+        <tr class="row mx-auto">
+            <th class="col-md-1 text-center">#</th>
+            <th class="col-md text-center">Name</th>
+            <th class="col-md text-center">Start date</th>
+            <th class="col-md text-center">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="charityEvent, iter : ${charityEvents}">
+            <tr class="row mx-auto">
+                <th class="col-md-1 text-center" th:utext="${iter.index + 1}"></th>
+                <td class="col-md text-center" th:utext="${charityEvent.name}"></td>
+                <td class="col-md text-center" th:utext="${charityEvent.startDate}"></td>
+                <td class="col-md text-center" th:utext="${charityEvent.description}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</main>
+<th:block th:include="~{fragments/footer}" />
+</body>
+</html>

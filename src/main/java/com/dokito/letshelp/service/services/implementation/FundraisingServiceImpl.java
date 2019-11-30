@@ -2,7 +2,7 @@ package com.dokito.letshelp.service.services.implementation;
 
 import com.dokito.letshelp.data.models.Fundraising;
 import com.dokito.letshelp.data.repositories.FundraisingRepository;
-import com.dokito.letshelp.service.models.FundraisingCreateServiceModel;
+import com.dokito.letshelp.service.models.create.FundraisingCreateServiceModel;
 import com.dokito.letshelp.service.services.FundraisingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

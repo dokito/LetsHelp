@@ -2,7 +2,7 @@ package com.dokito.letshelp.service.services.implementation;
 
 import com.dokito.letshelp.data.models.Cause;
 import com.dokito.letshelp.data.repositories.CauseRepository;
-import com.dokito.letshelp.service.models.CauseCreateServiceModel;
+import com.dokito.letshelp.service.models.create.CauseCreateServiceModel;
 import com.dokito.letshelp.service.services.CauseService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
