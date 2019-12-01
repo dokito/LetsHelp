@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<th:block th:include="~{fragments/head}"/>
+<body>
+<th:block th:include="~{fragments/header}"/>
+<main>
+<div>
+    <form th:action="@{/charityEvents/edit/{id}(id=${charityEventId})}" method="post">
+        <div class="container">
+            <label for="name" class="mb-1">Charity Event Name:</label>
+            <input type="text" class="form-control mt-1" id="name" name="name"
+                   th:value="${charityEvent.name}">
+        </div>
+        <div class="container">
+            <label for="description" class="mb-1">Charity Event Description:</label>
+            <input type="text" class="form-control mt-1" id="description" name="description"
+                   th:value="${charityEvent.description}">
+        </div>
+        <div class="container">
+            <label for="startDate" class="mb-1">Charity Event Start Date:</label>
+            <input type="datetime-local" class="form-control mt-1" id="startDate" name="startDate"
+                   th:value="${charityEvent.startDate}">
+        </div>
+        <div class="container">
+            <label for="endDate" class="mb-1">Charity Event End Date:</label>
+            <input type="datetime-local" class="form-control mt-1" id="endDate" name="endDate"
+                   th:value="${charityEvent.endDate}">
+        </div>
+
+        <div class="container">
+            <select class="form-control" name="responsiblePerson"  id="responsiblePerson">
+                <option value="">select user</option>
+                <option th:each="user : ${allUsers}"
+                        th:value="${user.id}"
+                        th:text="${user.username}"></option>
+            </select>
+
+<!--            <select class="form-control" id="testOrder" name="testOrder">-->
+<!--                <option value="">Select Test Order</option>-->
+<!--                <option th:each="test : ${tests}"-->
+<!--                        th:value="${test.testCode}"-->
+<!--                        th:text="${test.testCode}+' : '+${test.testName}"></option>-->
+<!--            </select>-->
+        </div>
+
+        <div class="button-holder d-flex justify-content-center">
+            <button type="submit" class="btn bg-hero ml-4 glow-button">Edit Charity Event</button>
+        </div>
+
+    </form>
+</div>
+</main>
+
+<th:block th:include="~{fragments/footer}"/>
+</body>
+</html>

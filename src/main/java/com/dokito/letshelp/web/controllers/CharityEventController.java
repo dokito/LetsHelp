@@ -1,8 +1,12 @@
 package com.dokito.letshelp.web.controllers;
 
 import com.dokito.letshelp.data.models.CharityEvent;
+import com.dokito.letshelp.data.models.User;
+import com.dokito.letshelp.service.models.CharityEventServiceModel;
 import com.dokito.letshelp.service.models.create.CharityEventCreateServiceModel;
+import com.dokito.letshelp.service.models.edit.CharityEventEditServiceModel;
 import com.dokito.letshelp.service.models.view.CharityEventViewDetailsModel;
+import com.dokito.letshelp.service.models.view.UserViewModel;
 import com.dokito.letshelp.service.services.CharityEventService;
 import com.dokito.letshelp.web.controllers.base.BaseController;
 import org.modelmapper.ModelMapper;
@@ -52,10 +56,29 @@ public class CharityEventController extends BaseController {
 
     @GetMapping("/details/{id}")
     public ModelAndView details(@PathVariable String id,ModelAndView modelAndView){
-        CharityEventViewDetailsModel charityEventById = this.charityEventService.getCharityEventById(id);
+        CharityEventServiceModel charityEventById = this.charityEventService.getCharityEventById(id);
 
         modelAndView.addObject("charityEvent",charityEventById);
 
         return super.view("charityEvents/charity_event_details.html", modelAndView);
+    }
+
+    @GetMapping("/edit/{id}")
+    public ModelAndView editCharityEvent (@PathVariable String id, ModelAndView modelAndView){
+        CharityEventServiceModel model = mapper.map(this.charityEventService.getCharityEventById(id), CharityEventServiceModel.class);
+        List<UserViewModel> allUsers = this.charityEventService.getAllUsers();
+
+        modelAndView.addObject("charityEventId", model.getId());
+        modelAndView.addObject("charityEvent", model);
+        modelAndView.addObject("allUsers", allUsers);
+
+        return super.view("charityEvents/charity_event_edit.html", modelAndView);
+    }
+
+    @PostMapping("/edit/{id}")
+    public ModelAndView editCharityEventConfirm(@PathVariable String id, @ModelAttribute CharityEventEditServiceModel model){
+        this.charityEventService.editCharityEvent(id, mapper.map(model, CharityEventEditServiceModel.class));
+
+        return super.redirect("/charityEvents/details/" + id);
     }
 }

@@ -1,4 +1,4 @@
-package com.dokito.letshelp.service.models.view;
+package com.dokito.letshelp.service.models.edit;
 
 import com.dokito.letshelp.data.models.Cause;
 import com.dokito.letshelp.data.models.PersonInNeed;
@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CharityEventViewDetailsModel extends BaseServiceModel {
+public class CharityEventEditServiceModel extends BaseServiceModel {
 
     private String name;
     private String description;
@@ -23,5 +23,5 @@ public class CharityEventViewDetailsModel extends BaseServiceModel {
     private PersonInNeed personInNeed;
     private Cause cause;
     private User responsiblePerson;
-    private List<User> participantsInEvent = new ArrayList<>();
+    private List<User> participantsInEvent;
 }
