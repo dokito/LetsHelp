@@ -1,6 +1,7 @@
 package com.dokito.letshelp.service.services.implementation;
 
 import com.dokito.letshelp.data.models.CharityEvent;
+import com.dokito.letshelp.data.models.User;
 import com.dokito.letshelp.data.repositories.CharityEventRepository;
 import com.dokito.letshelp.data.repositories.UserRepository;
 import com.dokito.letshelp.errors.CharityEventNotFound;
@@ -82,5 +83,15 @@ public class CharityEventServiceImpl implements CharityEventService {
                 .stream()
                 .map(user -> mapper.map(user, UserViewModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void addParticipant(String id, User participant) {
+        CharityEvent charityEvent = this.charityEventRepository.findById(id)
+                .orElseThrow(() -> new CharityEventNotFound(Constants.CHARITY_EVENT_ID_NOT_FOUND));
+
+        User userToAdd = this.userRepository.findUserById(id);
+
+        charityEvent.getParticipantsInEvent().add(userToAdd);
     }
 }

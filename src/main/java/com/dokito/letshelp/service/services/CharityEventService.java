@@ -21,4 +21,6 @@ public interface CharityEventService {
     CharityEventEditServiceModel editCharityEvent(String id, CharityEventEditServiceModel model);
 
     List<UserViewModel> getAllUsers();
+
+    void addParticipant(String id, User participant);
 }

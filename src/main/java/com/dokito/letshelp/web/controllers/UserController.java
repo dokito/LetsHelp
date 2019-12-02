@@ -54,7 +54,7 @@ public class UserController extends BaseController {
             return super.redirect("/");
         } catch (Exception ex) {
 
-            return super.redirect("users/login");
+            return super.redirect("/users/login");
         }
     }
 }

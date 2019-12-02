@@ -37,16 +37,16 @@ public class CharityEventController extends BaseController {
     @PostMapping("/create")
     public ModelAndView create(
             @RequestParam("startDate")
-                                   @DateTimeFormat(pattern = "dd-MMM-yyyy HH:mm")
-                                           String startDate,
-                               @ModelAttribute CharityEventCreateServiceModel model) {
+            @DateTimeFormat(pattern = "dd-MMM-yyyy HH:mm")
+                    String startDate,
+            @ModelAttribute CharityEventCreateServiceModel model) {
 
         charityEventService.create(model);
         return super.redirect("/");
     }
 
     @GetMapping("/all")
-    public ModelAndView getAllCharityEvents(ModelAndView modelAndView){
+    public ModelAndView getAllCharityEvents(ModelAndView modelAndView) {
         List<CharityEventCreateServiceModel> allCharityEvents = this.charityEventService.getAllCharityEvents();
 
         modelAndView.addObject("charityEvents", allCharityEvents);
@@ -55,16 +55,27 @@ public class CharityEventController extends BaseController {
     }
 
     @GetMapping("/details/{id}")
-    public ModelAndView details(@PathVariable String id,ModelAndView modelAndView){
+    public ModelAndView details(@PathVariable String id, ModelAndView modelAndView) {
         CharityEventServiceModel charityEventById = this.charityEventService.getCharityEventById(id);
 
-        modelAndView.addObject("charityEvent",charityEventById);
+        modelAndView.addObject("charityEvent", charityEventById);
+        modelAndView.addObject("participants", charityEventById.getParticipantsInEvent());
 
         return super.view("charityEvents/charity_event_details.html", modelAndView);
     }
 
+    @PostMapping("/details/{id}")
+    public ModelAndView detailsAddParticipant(@PathVariable String id, ModelAndView modelAndView, @ModelAttribute User user) {
+        CharityEventServiceModel charityEventById = this.charityEventService.getCharityEventById(id);
+        this.charityEventService.addParticipant(id, user);
+
+        modelAndView.addObject("charityEventId", charityEventById.getId());
+
+        return super.redirect("/charityEvents/details/" + charityEventById.getId());
+    }
+
     @GetMapping("/edit/{id}")
-    public ModelAndView editCharityEvent (@PathVariable String id, ModelAndView modelAndView){
+    public ModelAndView editCharityEvent(@PathVariable String id, ModelAndView modelAndView) {
         CharityEventServiceModel model = mapper.map(this.charityEventService.getCharityEventById(id), CharityEventServiceModel.class);
         List<UserViewModel> allUsers = this.charityEventService.getAllUsers();
 
@@ -76,7 +87,7 @@ public class CharityEventController extends BaseController {
     }
 
     @PostMapping("/edit/{id}")
-    public ModelAndView editCharityEventConfirm(@PathVariable String id, @ModelAttribute CharityEventEditServiceModel model){
+    public ModelAndView editCharityEventConfirm(@PathVariable String id, @ModelAttribute CharityEventEditServiceModel model) {
         this.charityEventService.editCharityEvent(id, mapper.map(model, CharityEventEditServiceModel.class));
 
         return super.redirect("/charityEvents/details/" + id);

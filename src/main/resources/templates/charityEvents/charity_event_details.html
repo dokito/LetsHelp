@@ -9,21 +9,38 @@
 
 <main>
     <div>
-        <div class="text-center">
-            <h1 th:text="'Name: ' + ${charityEvent.name}"></h1>
-        </div>
-        <div class="text-center">
-            <h1 th:text="'Description: ' + ${charityEvent.description}"></h1>
-        </div>
-        <div class="text-center">
-            <h1 th:text="'Start date: ' + ${charityEvent.startDate}"></h1>
-        </div>
-        <div class="text-center">
-            <h1 th:text="'End date: ' + ${charityEvent.endDate}"></h1>
-        </div>
-        <div class="text-center">
-            <h1 th:text="'Responsible person: ' + ${charityEvent.responsiblePerson.username}"></h1>
-        </div>
+        <form th:action="@{/charityEvents/details/{id}(id=${charityEventId})}" method="post">
+            <div class="text-center">
+                <h1 th:text="'Name: ' + ${charityEvent.name}"></h1>
+            </div>
+            <div class="text-center">
+                <h1 th:text="'Description: ' + ${charityEvent.description}"></h1>
+            </div>
+            <div class="text-center">
+                <h1 th:text="'Start date: ' + ${charityEvent.startDate}"></h1>
+            </div>
+            <div class="text-center">
+                <h1 th:text="'End date: ' + ${charityEvent.endDate}"></h1>
+            </div>
+            <div class="text-center">
+                <h1 th:text="'Responsible person: ' + ${charityEvent.responsiblePerson.username}"></h1>
+            </div>
+
+            <div class="text-center">
+                <table>
+                    <th:block th:each="part : ${participants}">
+                        <tr>
+                            <td th:text="${part.getFirstName+' '+part.getLastName}">...</td>
+                        </tr>
+                    </th:block>
+                </table>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Join event</button>
+            </div>
+
+        </form>
     </div>
 </main>
 
