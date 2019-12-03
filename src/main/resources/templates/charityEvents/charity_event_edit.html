@@ -31,19 +31,13 @@
         </div>
 
         <div class="container">
-            <select class="form-control" name="responsiblePerson"  id="responsiblePerson">
+            <label for="responsiblePerson" class="mb-1">Responsible Person</label>
+            <select class="form-control" name="responsiblePerson"  id="responsiblePerson" required>
                 <option value="">select user</option>
                 <option th:each="user : ${allUsers}"
                         th:value="${user.id}"
                         th:text="${user.username}"></option>
             </select>
-
-<!--            <select class="form-control" id="testOrder" name="testOrder">-->
-<!--                <option value="">Select Test Order</option>-->
-<!--                <option th:each="test : ${tests}"-->
-<!--                        th:value="${test.testCode}"-->
-<!--                        th:text="${test.testCode}+' : '+${test.testName}"></option>-->
-<!--            </select>-->
         </div>
 
         <div class="button-holder d-flex justify-content-center">

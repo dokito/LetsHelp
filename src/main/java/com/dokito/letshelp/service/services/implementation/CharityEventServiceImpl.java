@@ -86,12 +86,14 @@ public class CharityEventServiceImpl implements CharityEventService {
     }
 
     @Override
-    public void addParticipant(String id, User participant) {
+    public CharityEvent addParticipant(String id, User participant) {
         CharityEvent charityEvent = this.charityEventRepository.findById(id)
                 .orElseThrow(() -> new CharityEventNotFound(Constants.CHARITY_EVENT_ID_NOT_FOUND));
 
-        User userToAdd = this.userRepository.findUserById(id);
+        charityEvent.getParticipantsInEvent().add(participant);
 
-        charityEvent.getParticipantsInEvent().add(userToAdd);
+        this.charityEventRepository.saveAndFlush(charityEvent);
+
+        return charityEvent;
     }
 }

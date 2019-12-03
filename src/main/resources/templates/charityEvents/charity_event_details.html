@@ -9,7 +9,7 @@
 
 <main>
     <div>
-        <form th:action="@{/charityEvents/details/{id}(id=${charityEventId})}" method="post">
+        <form th:action="@{/charityEvents/details/{id}(id=${charityEvent.id})}" method="post">
             <div class="text-center">
                 <h1 th:text="'Name: ' + ${charityEvent.name}"></h1>
             </div>
@@ -41,6 +41,9 @@
             </div>
 
         </form>
+    </div>
+    <div>
+        <h1 th:text="${user.username}"/>
     </div>
 </main>
 

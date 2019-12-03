@@ -3,6 +3,7 @@ package com.dokito.letshelp.web.controllers;
 import com.dokito.letshelp.data.models.CharityEvent;
 import com.dokito.letshelp.data.models.User;
 import com.dokito.letshelp.service.models.CharityEventServiceModel;
+import com.dokito.letshelp.service.models.LoginUserServiceModel;
 import com.dokito.letshelp.service.models.create.CharityEventCreateServiceModel;
 import com.dokito.letshelp.service.models.edit.CharityEventEditServiceModel;
 import com.dokito.letshelp.service.models.view.CharityEventViewDetailsModel;
@@ -13,9 +14,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collector;
 
 @Controller
 @RequestMapping("/charityEvents")
@@ -56,22 +62,31 @@ public class CharityEventController extends BaseController {
 
     @GetMapping("/details/{id}")
     public ModelAndView details(@PathVariable String id, ModelAndView modelAndView) {
+        HttpSession session = session();
+        LoginUserServiceModel user = (LoginUserServiceModel) session.getAttribute("user");
         CharityEventServiceModel charityEventById = this.charityEventService.getCharityEventById(id);
 
         modelAndView.addObject("charityEvent", charityEventById);
         modelAndView.addObject("participants", charityEventById.getParticipantsInEvent());
+        modelAndView.addObject("user", user);
 
         return super.view("charityEvents/charity_event_details.html", modelAndView);
     }
 
     @PostMapping("/details/{id}")
-    public ModelAndView detailsAddParticipant(@PathVariable String id, ModelAndView modelAndView, @ModelAttribute User user) {
+    public ModelAndView detailsAddParticipant(@PathVariable String id, @ModelAttribute CharityEvent charityEvent) {
+        HttpSession session = session();
         CharityEventServiceModel charityEventById = this.charityEventService.getCharityEventById(id);
-        this.charityEventService.addParticipant(id, user);
+        LoginUserServiceModel user = (LoginUserServiceModel) session.getAttribute("user");
+        Optional<UserViewModel> userToAdd = this.charityEventService.getAllUsers()
+                .stream()
+                .filter(u -> u.getUsername().equals(user.getUsername()))
+                .findFirst();
 
-        modelAndView.addObject("charityEventId", charityEventById.getId());
+        User user1 = mapper.map(userToAdd.get(), User.class);
+        this.charityEventService.addParticipant(id, user1);
 
-        return super.redirect("/charityEvents/details/" + charityEventById.getId());
+        return super.redirect("/charityEvents/details/" + id);
     }
 
     @GetMapping("/edit/{id}")
@@ -91,5 +106,10 @@ public class CharityEventController extends BaseController {
         this.charityEventService.editCharityEvent(id, mapper.map(model, CharityEventEditServiceModel.class));
 
         return super.redirect("/charityEvents/details/" + id);
+    }
+
+    public static HttpSession session() {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        return attr.getRequest().getSession(true); // true == allow create
     }
 }

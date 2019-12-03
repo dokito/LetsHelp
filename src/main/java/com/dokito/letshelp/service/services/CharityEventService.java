@@ -22,5 +22,5 @@ public interface CharityEventService {
 
     List<UserViewModel> getAllUsers();
 
-    void addParticipant(String id, User participant);
+    CharityEvent addParticipant(String id, User participant);
 }
