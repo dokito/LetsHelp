@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class FundraisingServiceImpl implements FundraisingService {
@@ -22,8 +24,11 @@ public class FundraisingServiceImpl implements FundraisingService {
 
     @Override
     public Fundraising create(FundraisingCreateServiceModel model) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         Fundraising fundraising = mapper.map(model, Fundraising.class);
         fundraising.setCurrentSum(BigDecimal.ZERO);
+        fundraising.setStartDate(LocalDateTime.parse(model.getStartDate(), formatter));
+        fundraising.setEndDate(LocalDateTime.parse(model.getEndDate(), formatter));
         repository.save(fundraising);
         return fundraising;
     }

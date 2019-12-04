@@ -9,7 +9,6 @@
 
 <main>
     <div>
-        <form th:action="@{/charityEvents/details/{id}(id=${charityEvent.id})}" method="post">
             <div class="text-center">
                 <h1 th:text="'Name: ' + ${charityEvent.name}"></h1>
             </div>
@@ -36,6 +35,12 @@
                 </table>
             </div>
 
+        <form th:action="@{/charityEvents/details/{id}(id=${charityEvent.id})}" method="post">
+            <div class="container">
+                <label for="participantsInEvent" class="mb-1">Charity Event End Date:</label>
+                <input type="text" class="form-control mt-1" id="participantsInEvent" name="participantsInEvent" disabled
+                       th:value="${charityEvent.participantsInEvent.add(user)}">
+            </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Join event</button>
             </div>

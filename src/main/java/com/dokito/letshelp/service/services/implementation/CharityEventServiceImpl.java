@@ -7,6 +7,7 @@ import com.dokito.letshelp.data.repositories.UserRepository;
 import com.dokito.letshelp.errors.CharityEventNotFound;
 import com.dokito.letshelp.errors.Constants;
 import com.dokito.letshelp.service.models.CharityEventServiceModel;
+import com.dokito.letshelp.service.models.LoginUserServiceModel;
 import com.dokito.letshelp.service.models.create.CharityEventCreateServiceModel;
 import com.dokito.letshelp.service.models.edit.CharityEventEditServiceModel;
 import com.dokito.letshelp.service.models.view.CharityEventViewDetailsModel;
@@ -86,14 +87,27 @@ public class CharityEventServiceImpl implements CharityEventService {
     }
 
     @Override
-    public CharityEvent addParticipant(String id, User participant) {
+    public CharityEventEditServiceModel addParticipant(String id, CharityEventEditServiceModel model, LoginUserServiceModel participant) {
         CharityEvent charityEvent = this.charityEventRepository.findById(id)
+                .map(c -> mapper.map(c, CharityEvent.class))
                 .orElseThrow(() -> new CharityEventNotFound(Constants.CHARITY_EVENT_ID_NOT_FOUND));
 
-        charityEvent.getParticipantsInEvent().add(participant);
+        model.getParticipantsInEvent().add(mapper.map(participant, User.class));
+
+        charityEvent.setParticipantsInEvent(model.getParticipantsInEvent());
 
         this.charityEventRepository.saveAndFlush(charityEvent);
 
-        return charityEvent;
+        return mapper.map(charityEvent, CharityEventEditServiceModel.class);
+    }
+
+    @Override
+    public User getUserById(String id) {
+        return this.userRepository.findUserById(id);
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return this.userRepository.findByUsername(username);
     }
 }

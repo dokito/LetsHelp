@@ -3,6 +3,7 @@ package com.dokito.letshelp.service.services;
 import com.dokito.letshelp.data.models.CharityEvent;
 import com.dokito.letshelp.data.models.User;
 import com.dokito.letshelp.service.models.CharityEventServiceModel;
+import com.dokito.letshelp.service.models.LoginUserServiceModel;
 import com.dokito.letshelp.service.models.create.CharityEventCreateServiceModel;
 import com.dokito.letshelp.service.models.edit.CharityEventEditServiceModel;
 import com.dokito.letshelp.service.models.view.CharityEventViewDetailsModel;
@@ -22,5 +23,9 @@ public interface CharityEventService {
 
     List<UserViewModel> getAllUsers();
 
-    CharityEvent addParticipant(String id, User participant);
+    CharityEventEditServiceModel addParticipant(String id, CharityEventEditServiceModel model, LoginUserServiceModel user);
+
+    User getUserById(String id);
+
+    User getUserByUsername(String username);
 }

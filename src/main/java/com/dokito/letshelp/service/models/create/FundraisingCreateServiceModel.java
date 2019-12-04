@@ -14,4 +14,6 @@ public class FundraisingCreateServiceModel extends BaseServiceModel {
 
     private String name;
     private BigDecimal requiredSum;
+    private String startDate;
+    private String endDate;
 }

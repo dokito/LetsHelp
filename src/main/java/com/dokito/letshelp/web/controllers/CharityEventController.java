@@ -1,12 +1,10 @@
 package com.dokito.letshelp.web.controllers;
 
-import com.dokito.letshelp.data.models.CharityEvent;
 import com.dokito.letshelp.data.models.User;
 import com.dokito.letshelp.service.models.CharityEventServiceModel;
 import com.dokito.letshelp.service.models.LoginUserServiceModel;
 import com.dokito.letshelp.service.models.create.CharityEventCreateServiceModel;
 import com.dokito.letshelp.service.models.edit.CharityEventEditServiceModel;
-import com.dokito.letshelp.service.models.view.CharityEventViewDetailsModel;
 import com.dokito.letshelp.service.models.view.UserViewModel;
 import com.dokito.letshelp.service.services.CharityEventService;
 import com.dokito.letshelp.web.controllers.base.BaseController;
@@ -21,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 
 @Controller
 @RequestMapping("/charityEvents")
@@ -74,17 +71,13 @@ public class CharityEventController extends BaseController {
     }
 
     @PostMapping("/details/{id}")
-    public ModelAndView detailsAddParticipant(@PathVariable String id, @ModelAttribute CharityEvent charityEvent) {
+    public ModelAndView detailsAddParticipant(@PathVariable String id, @ModelAttribute CharityEventEditServiceModel charityEvent) {
         HttpSession session = session();
         CharityEventServiceModel charityEventById = this.charityEventService.getCharityEventById(id);
         LoginUserServiceModel user = (LoginUserServiceModel) session.getAttribute("user");
-        Optional<UserViewModel> userToAdd = this.charityEventService.getAllUsers()
-                .stream()
-                .filter(u -> u.getUsername().equals(user.getUsername()))
-                .findFirst();
 
-        User user1 = mapper.map(userToAdd.get(), User.class);
-        this.charityEventService.addParticipant(id, user1);
+//        User userToAdd = this.charityEventService.getUserByUsername(user.getUsername());
+        this.charityEventService.addParticipant(id, mapper.map(charityEventById, CharityEventEditServiceModel.class), user);
 
         return super.redirect("/charityEvents/details/" + id);
     }
