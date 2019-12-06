@@ -6,4 +6,8 @@ import com.dokito.letshelp.service.models.create.FundraisingCreateServiceModel;
 public interface FundraisingService {
 
     Fundraising create(FundraisingCreateServiceModel model);
+
+    Fundraising getById(String id);
+
+    Fundraising addContribution(String id, String moneyToAdd);
 }

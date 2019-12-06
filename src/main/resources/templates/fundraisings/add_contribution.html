@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<th:block th:include="~{fragments/head}"/>
+<body>
+<th:block th:include="~{fragments/header}"/>
+<body>
+<main>
+    <div class="container">
+        <h2 class="text-center">Enter amount of contribution</h2>
+        <form th:action="@{/fundraisings/add_contribution/{id}(id=${fundraising.id})}" method="post">
+            <div class="form-group">
+                <label for="addMoney">Enter amount:</label>
+                <input type="number" class="form-control" id="addMoney" placeholder="Enter amount" name="addMoney" min="0" step="0.01">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</main>
+<th:block th:include="~{fragments/footer}" />
+</body>
+</html>
