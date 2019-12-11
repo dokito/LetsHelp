@@ -29,7 +29,7 @@
                 <table>
                     <th:block th:each="part : ${participants}">
                         <tr>
-                            <td th:text="${part.getFirstName+' '+part.getLastName}">...</td>
+                            <td th:text="${part.firstName+' '+part.lastName}">...</td>
                         </tr>
                     </th:block>
                 </table>

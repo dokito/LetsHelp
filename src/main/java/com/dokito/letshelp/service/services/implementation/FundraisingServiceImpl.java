@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class FundraisingServiceImpl implements FundraisingService {
@@ -58,5 +59,10 @@ public class FundraisingServiceImpl implements FundraisingService {
         this.repository.saveAndFlush(fundraising);
 
         return fundraising;
+    }
+
+    @Override
+    public List<Fundraising> getAll() {
+        return this.repository.findAll();
     }
 }

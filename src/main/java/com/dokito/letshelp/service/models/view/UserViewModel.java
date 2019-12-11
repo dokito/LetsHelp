@@ -17,6 +17,6 @@ public class UserViewModel extends BaseServiceModel {
     private String username;
     private String firstName;
     private String lastName;
-    private List<CharityEvent> eventsResponsible = new ArrayList<>();
-    private List<CharityEvent> eventsParticipating = new ArrayList<>();
+    private List<CharityEvent> eventsResponsible;
+    private List<CharityEvent> eventsParticipating;
 }

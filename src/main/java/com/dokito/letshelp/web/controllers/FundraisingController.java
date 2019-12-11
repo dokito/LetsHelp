@@ -1,6 +1,7 @@
 package com.dokito.letshelp.web.controllers;
 
 import com.dokito.letshelp.data.models.Fundraising;
+import com.dokito.letshelp.service.models.create.CharityEventCreateServiceModel;
 import com.dokito.letshelp.service.models.create.FundraisingCreateServiceModel;
 import com.dokito.letshelp.service.models.edit.CharityEventEditServiceModel;
 import com.dokito.letshelp.service.models.edit.FundraisingAddMoneyModel;
@@ -10,6 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/fundraisings")
@@ -57,5 +60,14 @@ public class FundraisingController extends BaseController {
         modelAndView.addObject("fundraising", byId);
 
         return super.view("/fundraisings/fundraising_details.html", modelAndView);
+    }
+
+    @GetMapping("/all")
+    public ModelAndView getAll(ModelAndView modelAndView){
+        List<Fundraising> allFundraisings = this.fundraisingService.getAll();
+
+        modelAndView.addObject("fundraisings", allFundraisings);
+
+        return super.view("fundraisings/all_fundraisings.html", modelAndView);
     }
 }

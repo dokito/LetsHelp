@@ -13,20 +13,18 @@
         <tr class="row mx-auto">
             <th class="col-md-1 text-center">#</th>
             <th class="col-md text-center">Name</th>
-            <th class="col-md text-center">Start date</th>
-            <th class="col-md text-center">Description</th>
+            <th class="col-md text-center">Description of need</th>
             <th class="col-md text-center">Details</th>
         </tr>
         </thead>
         <tbody>
-        <th:block th:each="charityEvent, iter : ${charityEvents}">
+        <th:block th:each="pin, iter : ${personsInNeed}">
             <tr class="row mx-auto">
                 <th class="col-md-1 text-center" th:utext="${iter.index + 1}"></th>
-                <td class="col-md text-center" th:utext="${charityEvent.name}"></td>
-                <td class="col-md text-center" th:utext="${charityEvent.startDate}"></td>
-                <td class="col-md text-center" th:utext="${charityEvent.description}"></td>
+                <td class="col-md text-center" th:utext="${pin.name}"></td>
+                <td class="col-md text-center" th:utext="${pin.descriptionOfNeed}"></td>
                 <td class="col-md text-center">
-                    <a th:href="@{/charityEvents/details/{id}(id=${charityEvent.id})}"
+                    <a th:href="@{/pin/details/{id}(id=${pin.id})}"
                        class="btn btn-secondary glow-button font-weight-bold text-white">Details</a>
                 </td>
             </tr>
@@ -34,8 +32,8 @@
         </tbody>
     </table>
     <div class="text-center">
-        <a href="/charityEvents/create"
-           class="btn btn-info glow-button font-weight-bold text-white">Create charity event</a>
+        <a href="/pin/create"
+           class="btn btn-info glow-button font-weight-bold text-white">Register person in need</a>
     </div>
 </main>
 <th:block th:include="~{fragments/footer}" />

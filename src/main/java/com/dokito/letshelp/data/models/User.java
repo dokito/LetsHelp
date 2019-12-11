@@ -38,11 +38,18 @@ public class User extends BaseEntity implements UserDetails {
     )
     private List<CharityEvent> eventsResponsible = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(targetEntity = CharityEvent.class, fetch = FetchType.LAZY)
     @JoinTable(
             name = "events_participating",
-            joinColumns = @JoinColumn(name = "charity_event_id"),
-            inverseJoinColumns = @JoinColumn(name = "users_id"))
+            joinColumns = @JoinColumn(
+                    name = "users_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "charity_event_id",
+                    referencedColumnName = "id"
+            )
+    )
     private List<CharityEvent> eventsParticipating = new ArrayList<>();
 
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)

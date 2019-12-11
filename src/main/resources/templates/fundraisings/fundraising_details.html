@@ -21,6 +21,10 @@
         <div class="text-center">
             <h1 th:text="'Current sum: ' + ${fundraising.currentSum}"></h1>
         </div>
+        <div class="text-center">
+            <a th:href="@{/fundraisings/add_contribution/{id}(id=${fundraising.id})}"
+               class="btn btn-info glow-button font-weight-bold text-white">Add contribution</a>
+        </div>
 
     </div>
 </main>

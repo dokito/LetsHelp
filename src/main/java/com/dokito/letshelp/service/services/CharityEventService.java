@@ -4,6 +4,8 @@ import com.dokito.letshelp.data.models.CharityEvent;
 import com.dokito.letshelp.data.models.User;
 import com.dokito.letshelp.service.models.CharityEventServiceModel;
 import com.dokito.letshelp.service.models.LoginUserServiceModel;
+import com.dokito.letshelp.service.models.create.CharityEventCreateModelWithCause;
+import com.dokito.letshelp.service.models.create.CharityEventCreateModelWithPersonInNeed;
 import com.dokito.letshelp.service.models.create.CharityEventCreateServiceModel;
 import com.dokito.letshelp.service.models.edit.CharityEventEditServiceModel;
 import com.dokito.letshelp.service.models.view.CharityEventViewDetailsModel;
@@ -13,7 +15,7 @@ import java.util.List;
 
 public interface CharityEventService {
 
-    CharityEvent create(CharityEventCreateServiceModel model);
+    CharityEvent create(CharityEventCreateModelWithCause modelWithCause, CharityEventCreateModelWithPersonInNeed modelWithPersonInNeed);
 
     List<CharityEventCreateServiceModel> getAllCharityEvents ();
 
@@ -23,7 +25,7 @@ public interface CharityEventService {
 
     List<UserViewModel> getAllUsers();
 
-    CharityEventEditServiceModel addParticipant(String id, CharityEventEditServiceModel model, LoginUserServiceModel user);
+    CharityEventEditServiceModel addParticipant(String id, CharityEventEditServiceModel model, UserViewModel user);
 
     User getUserById(String id);
 

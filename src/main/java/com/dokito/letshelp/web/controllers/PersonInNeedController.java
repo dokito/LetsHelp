@@ -1,15 +1,15 @@
 package com.dokito.letshelp.web.controllers;
 
+import com.dokito.letshelp.data.models.PersonInNeed;
 import com.dokito.letshelp.service.models.PersonInNeedCreateServiceModel;
 import com.dokito.letshelp.service.services.PersonInNeedService;
 import com.dokito.letshelp.web.controllers.base.BaseController;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/pin")
@@ -32,5 +32,23 @@ public class PersonInNeedController extends BaseController {
     public ModelAndView registerPersonInNeed(@ModelAttribute PersonInNeedCreateServiceModel model){
         personInNeedService.register(model);
         return super.redirect("/");
+    }
+
+    @GetMapping("/all")
+    public ModelAndView getAll(ModelAndView modelAndView){
+        List<PersonInNeed> all = this.personInNeedService.getAll();
+
+        modelAndView.addObject("personsInNeed", all);
+
+        return super.view("pin/all_pin.html", modelAndView);
+    }
+
+    @GetMapping("/details/{id}")
+    public ModelAndView getDetails(@PathVariable String id, ModelAndView modelAndView){
+        PersonInNeed byId = this.personInNeedService.findById(id);
+
+        modelAndView.addObject("pin", byId);
+
+        return super.view("pin/pin_details.html", modelAndView);
     }
 }

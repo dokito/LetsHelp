@@ -14,19 +14,23 @@
             <th class="col-md-1 text-center">#</th>
             <th class="col-md text-center">Name</th>
             <th class="col-md text-center">Start date</th>
-            <th class="col-md text-center">Description</th>
+            <th class="col-md text-center">End date</th>
+            <th class="col-md text-center">Current sum</th>
+            <th class="col-md text-center">Required sum</th>
             <th class="col-md text-center">Details</th>
         </tr>
         </thead>
         <tbody>
-        <th:block th:each="charityEvent, iter : ${charityEvents}">
+        <th:block th:each="fundraising, iter : ${fundraisings}">
             <tr class="row mx-auto">
                 <th class="col-md-1 text-center" th:utext="${iter.index + 1}"></th>
-                <td class="col-md text-center" th:utext="${charityEvent.name}"></td>
-                <td class="col-md text-center" th:utext="${charityEvent.startDate}"></td>
-                <td class="col-md text-center" th:utext="${charityEvent.description}"></td>
+                <td class="col-md text-center" th:utext="${fundraising.name}"></td>
+                <td class="col-md text-center" th:utext="${fundraising.startDate}"></td>
+                <td class="col-md text-center" th:utext="${fundraising.endDate}"></td>
+                <td class="col-md text-center" th:utext="${fundraising.currentSum}"></td>
+                <td class="col-md text-center" th:utext="${fundraising.requiredSum}"></td>
                 <td class="col-md text-center">
-                    <a th:href="@{/charityEvents/details/{id}(id=${charityEvent.id})}"
+                    <a th:href="@{/fundraisings/details/{id}(id=${fundraising.id})}"
                        class="btn btn-secondary glow-button font-weight-bold text-white">Details</a>
                 </td>
             </tr>
@@ -34,8 +38,8 @@
         </tbody>
     </table>
     <div class="text-center">
-        <a href="/charityEvents/create"
-           class="btn btn-info glow-button font-weight-bold text-white">Create charity event</a>
+        <a href="/fundraisings/create"
+           class="btn btn-info glow-button font-weight-bold text-white">Create fundraising event</a>
     </div>
 </main>
 <th:block th:include="~{fragments/footer}" />
