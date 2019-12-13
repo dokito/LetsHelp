@@ -7,13 +7,15 @@ import com.dokito.letshelp.data.repositories.UserRepository;
 import com.dokito.letshelp.errors.CharityEventNotFound;
 import com.dokito.letshelp.errors.Constants;
 import com.dokito.letshelp.errors.UserNotFound;
-import com.dokito.letshelp.service.models.LoginUserServiceModel;
 import com.dokito.letshelp.service.models.auth.RegisterUserServiceModel;
 import com.dokito.letshelp.service.services.RoleService;
 import com.dokito.letshelp.service.services.UserService;
-import com.dokito.letshelp.service.services.AuthValidationService;
 import com.dokito.letshelp.service.services.HashingService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
@@ -21,23 +23,20 @@ import java.util.LinkedHashSet;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final AuthValidationService authValidationService;
     private final UserRepository userRepository;
     private final ModelMapper mapper;
-    private final HashingService hashingService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleService roleService;
     private final CharityEventRepository charityEventRepository;
 
-    public UserServiceImpl(AuthValidationService authValidationService,
-                           UserRepository userRepository,
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository,
                            ModelMapper mapper,
-                           HashingService hashingService,
-                           RoleService roleService,
+                           BCryptPasswordEncoder bCryptPasswordEncoder, RoleService roleService,
                            CharityEventRepository charityEventRepository) {
-        this.authValidationService = authValidationService;
         this.userRepository = userRepository;
         this.mapper = mapper;
-        this.hashingService = hashingService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.roleService = roleService;
         this.charityEventRepository = charityEventRepository;
     }
@@ -45,10 +44,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void register(RegisterUserServiceModel model) {
         this.roleService.seedRolesInDb();
-        if (!authValidationService.isValid(model)) {
-            //TODO
-            return;
-        }
         if (this.userRepository.count() == 0) {
             model.setAuthorities(this.roleService.findAllRoles());
         } else {
@@ -58,17 +53,8 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = mapper.map(model, User.class);
-        user.setPassword(hashingService.hash(user.getPassword()));
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-    }
-
-    @Override
-    public LoginUserServiceModel login(RegisterUserServiceModel model) throws Exception {
-
-        String hashPassword = hashingService.hash(model.getPassword());
-        return userRepository.findByUsernameAndPassword(model.getUsername(), hashPassword)
-                .map(user -> mapper.map(user, LoginUserServiceModel.class))
-                .orElseThrow(() -> new Exception("Invalid user"));
     }
 
     @Override
@@ -85,5 +71,25 @@ public class UserServiceImpl implements UserService {
         user.getEventsParticipating().add(charityEvent1);
 
         this.userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public void deleteUser(String id) {
+
+    }
+
+    @Override
+    public void makeAdmin(String id) {
+
+    }
+
+    @Override
+    public void makeUser(String id) {
+
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return this.userRepository.findByUsername(s);
     }
 }

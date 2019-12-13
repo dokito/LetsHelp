@@ -62,13 +62,3 @@
 <th:block th:include="~{fragments/footer}" />
 </body>
 </html>
-//Begin JS
-
-$(function(){
-$("input[type='radio']").change(function(){
-
-$("input[type='submit']").prop("disabled", false);
-//Or
-//$("input[type='submit']").removeAttr("disabled");
-});
-});

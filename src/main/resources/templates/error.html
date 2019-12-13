@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<th:block th:include="~{fragments/head}"/>
+<body>
+<th:block th:include="~{fragments/header}"/>
+<main class="mt-5">
+    <div class="bg-image-quote-create">
+        <hr class="bg-hero hr-2"/>
+        <h1 style="font-size: 50px" class="text-center font-weight-bold text-black">Опааа стана грешка!</h1>
+        <div class="text-center">
+            <h3 th:utext="${message}" style="font-size: 25px; color: red;"></h3>
+        </div>
+        <div class="text-center">
+            <img src="https://www.elegantthemes.com/blog/wp-content/uploads/2016/03/500-internal-server-error-featured-image-1.png" alt="error">
+        </div>
+        <span style="visibility: hidden">....</span>
+    </div>
+</main>
+<th:block th:include="~{fragments/footer}"/>
+</body>
+</html>

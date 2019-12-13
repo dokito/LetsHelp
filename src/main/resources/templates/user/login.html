@@ -10,23 +10,24 @@
 <main>
     <h1 class="text-center">Login</h1>
     <hr class="hr-3"/>
-    <form class="mx-auto w-15" action="/users/login" method="post">
+    <form class="mx-auto w-15" th:method="post" th:action="@{/users/login}">
         <div class="form-group text-center">
             <div class="label-holder textCol d-flex justify-content-center">
                 <label for="username" class="h3 mb-2">Username</label>
             </div>
-            <input type="text" class="form-control-sm text-center" id="username" name="username"/>
+            <input type="text" class="form-control-sm text-center" id="username" name="username" required/>
         </div>
         <div class="form-group text-center">
             <div class="label-holder textCol d-flex justify-content-center">
                 <label for="password" class="h3 mb-2">Password</label>
             </div>
-            <input type="password" class="form-control-sm text-center" id="password" name="password"/>
+            <input type="password" class="form-control-sm text-center" id="password" name="password" required/>
         </div>
         <div class="button-holder justify-content-center text-center">
             <button class="btn btn-info text-white mb-3 text-center" type="submit">Login</button>
         </div>
     </form>
+    <span style="visibility: hidden">....</span>
 </main>
 <th:block th:include="~{fragments/footer}" />
 </body>

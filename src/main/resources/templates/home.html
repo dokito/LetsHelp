@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<th:block th:include="~{fragments/head}"/>
+<body>
+<th:block th:include="~{fragments/header}"/>
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="/../js/showQuotes.js"></script>
+<main>
+    <div class="text-center" sec:authentication="name">
+        Welcome "name.firstName"! Let's help! This is home page!
+    </div>
+</main>
+<th:block th:include="~{fragments/footer}" />
+<script>
+    function formatCharityEvents(charityEvent) {
+        return '<div class="quote mb-3 mt-3">'
+            + '<div class="text-center">'
+            + `<a href="/chariyEvents/details/${charityEvent.id}"></a>`
+            + '</div>'
+            + `<h5 class="text-center font-weight-bold mt-3">Author: ${charityEvent.name}</h5>`
+            + `<h5 class="text-center font-weight-bold">Title: ${charityEvent.description}</h5>`
+            + `<h5 class="text-center font-weight-bold mt-1">Description: ${charityEvent.startDate}</h5>`
+            + '</div>'
+    }
+
+    setTimeout(() => {
+        $('#toChange').empty();
+        $('#toChange').append('<a id="quotes" href="/quotes/all" class="btn bg-hero mt-5 ml-5 glow-button">Show all Quotes</a>');
+        $('#toChange').append('<a href="/videos/all" class="btn bg-hero mt-5 ml-5 glow-button">Show all Videos</a>');
+        fetch('/charityEvents/all')
+            .then(response => response.json())
+            .then((json) => {
+                if (json.length === 0) {
+                    $('#toChange').append(`<h1 class="text-center mt-3 font-weight-bold">There are no charity events!</h1>`)
+                    $('#quotes').hide();
+                } else {
+                    for (let i = 0; i < json.length; i += 4) {
+                        $('#toChange').append('<div class="quotes-row row d-flex justify-content-around mt-5">');
+                        if(i < json.length) $('.quotes-row:last-child').append(formatCharityEvents(json[i]));
+                        if(i + 1 < json.length) $('.quotes-row:last-child').append(formatCharityEvents(json[i + 1]));
+                        if(i + 2 < json.length) $('.quotes-row:last-child').append(formatCharityEvents(json[i + 2]));
+                        if(i + 3 < json.length) $('.quotes-row:last-child').append(formatCharityEvents(json[i + 3]));
+                    }
+                }
+            });
+    }, 3000);
+</script>
+</body>
+</html>

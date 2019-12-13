@@ -17,6 +17,7 @@ import com.dokito.letshelp.service.services.CharityEventService;
 import com.dokito.letshelp.service.services.PersonInNeedService;
 import com.dokito.letshelp.web.controllers.base.BaseController;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -45,6 +46,7 @@ public class CharityEventController extends BaseController {
     }
 
     @GetMapping("/create")
+    @PreAuthorize(value = "hasRole('ROLE_CONTRIBUTOR')")
     public ModelAndView getCreateCharityEventForm(ModelAndView modelAndView) {
         List<UserViewModel> allUsers = this.charityEventService.getAllUsers();
         List<Cause> allCauses = this.causeService.getAll();
@@ -110,6 +112,7 @@ public class CharityEventController extends BaseController {
     }
 
     @GetMapping("/edit/{id}")
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     public ModelAndView editCharityEvent(@PathVariable String id, ModelAndView modelAndView) {
         CharityEventServiceModel model = mapper.map(this.charityEventService.getCharityEventById(id), CharityEventServiceModel.class);
         List<UserViewModel> allUsers = this.charityEventService.getAllUsers();
