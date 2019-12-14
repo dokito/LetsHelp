@@ -1,11 +1,14 @@
 package com.dokito.letshelp.web.controllers;
 
+import com.dokito.letshelp.data.models.Cause;
 import com.dokito.letshelp.data.models.Fundraising;
-import com.dokito.letshelp.service.models.create.CharityEventCreateServiceModel;
-import com.dokito.letshelp.service.models.create.FundraisingCreateServiceModel;
-import com.dokito.letshelp.service.models.edit.CharityEventEditServiceModel;
+import com.dokito.letshelp.data.models.PersonInNeed;
+import com.dokito.letshelp.service.models.create.FundraisingWithCause;
+import com.dokito.letshelp.service.models.create.FundraisingWithPersonInNeed;
 import com.dokito.letshelp.service.models.edit.FundraisingAddMoneyModel;
+import com.dokito.letshelp.service.services.CauseService;
 import com.dokito.letshelp.service.services.FundraisingService;
+import com.dokito.letshelp.service.services.PersonInNeedService;
 import com.dokito.letshelp.web.controllers.base.BaseController;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -20,21 +23,31 @@ public class FundraisingController extends BaseController {
 
     private final FundraisingService fundraisingService;
     private final ModelMapper mapper;
+    private final CauseService causeService;
+    private final PersonInNeedService personInNeedService;
 
-    public FundraisingController(FundraisingService fundraisingService, ModelMapper mapper) {
+    public FundraisingController(FundraisingService fundraisingService, ModelMapper mapper, CauseService causeService, PersonInNeedService personInNeedService) {
         this.fundraisingService = fundraisingService;
         this.mapper = mapper;
+        this.causeService = causeService;
+        this.personInNeedService = personInNeedService;
     }
 
     @GetMapping("/create")
-    public ModelAndView getCreateFundraisingForm(){
-        return super.view("fundraisings/create_fundraising.html");
+    public ModelAndView getCreateFundraisingForm(ModelAndView modelAndView){
+        List<Cause> allCauses = this.causeService.getAll();
+        List<PersonInNeed> allPeopleInNeed = this.personInNeedService.getAll();
+
+        modelAndView.addObject("allCauses", allCauses);
+        modelAndView.addObject("allPin", allPeopleInNeed);
+
+        return super.view("fundraisings/create_fundraising.html", modelAndView);
     }
 
     @PostMapping("/create")
-    public ModelAndView create(@ModelAttribute FundraisingCreateServiceModel model){
-        fundraisingService.create(model);
-        return super.redirect("/");
+    public ModelAndView create(@ModelAttribute FundraisingWithCause withCause, FundraisingWithPersonInNeed withPersonInNeed){
+        fundraisingService.create(withCause, withPersonInNeed);
+        return super.redirect("/fundraisings/all");
     }
 
     @GetMapping("/add_contribution/{id}")

@@ -31,7 +31,7 @@ public class PersonInNeedController extends BaseController {
     @PostMapping("/register")
     public ModelAndView registerPersonInNeed(@ModelAttribute PersonInNeedCreateServiceModel model){
         personInNeedService.register(model);
-        return super.redirect("/");
+        return super.redirect("/pin/all");
     }
 
     @GetMapping("/all")

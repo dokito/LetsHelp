@@ -31,8 +31,8 @@
         </th:block>
         </tbody>
     </table>
-    <div class="text-center">
-        <a href="/pin/create"
+    <div class="text-center" sec:authorize="hasRole('ROLE_CONTRIBUTOR')">
+        <a href="/pin/register"
            class="btn btn-info glow-button font-weight-bold text-white">Register person in need</a>
     </div>
 </main>

@@ -27,6 +27,24 @@
                 <label for="endDate" class="mb-1">Fundraising End Date:</label>
                 <input type="datetime-local" class="form-control mt-1" id="endDate" name="endDate">
             </div>
+            <div class="form-group">
+                <label for="cause" class="mb-1">Causes</label>
+                <select class="form-control" name="cause"  id="cause">
+                    <option value="">Select responsible person</option>
+                    <option th:each="cause : ${allCauses}"
+                            th:value="${cause.id}"
+                            th:text="${cause.name}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="personInNeed" class="mb-1">Person in need</label>
+                <select class="form-control" name="personInNeed"  id="personInNeed">
+                    <option value="">Select responsible person</option>
+                    <option th:each="pin : ${allPin}"
+                            th:value="${pin.id}"
+                            th:text="${pin.name}"></option>
+                </select>
+            </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

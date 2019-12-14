@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 
 @Controller
 public class HomeController extends BaseController {
@@ -23,6 +24,7 @@ public class HomeController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Home")
     public ModelAndView home() {
+
         return super.view("home");
     }
 }

@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CharityEventServiceImpl implements CharityEventService {
+public class CharityEventServiceImpl implements CharityEventService  {
 
     private final CharityEventRepository charityEventRepository;
     private final UserRepository userRepository;
@@ -43,7 +43,7 @@ public class CharityEventServiceImpl implements CharityEventService {
     public CharityEvent create(CharityEventCreateModelWithCause modelWithCause, CharityEventCreateModelWithPersonInNeed modelWithPersonInNeed) {
         CharityEvent charityEvent = null;
         if (modelWithCause.getCause() != null && modelWithPersonInNeed.getPersonInNeed() == null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            DateTimeFormatter formatter = dateTimeFormatter();
             String date = modelWithCause.getStartDate();
             String endDate = modelWithCause.getEndDate();
             charityEvent = mapper.map(modelWithCause, CharityEvent.class);
@@ -51,7 +51,7 @@ public class CharityEventServiceImpl implements CharityEventService {
             charityEvent.setEndDate(LocalDateTime.parse(endDate, formatter));
             charityEventRepository.saveAndFlush(charityEvent);
         } else if (modelWithPersonInNeed.getPersonInNeed() != null && modelWithCause.getCause() == null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            DateTimeFormatter formatter = dateTimeFormatter();
             String date = modelWithPersonInNeed.getStartDate();
             String endDate = modelWithPersonInNeed.getEndDate();
             charityEvent = mapper.map(modelWithPersonInNeed, CharityEvent.class);
@@ -63,11 +63,8 @@ public class CharityEventServiceImpl implements CharityEventService {
     }
 
     @Override
-    public List<CharityEventCreateServiceModel> getAllCharityEvents() {
-        return this.charityEventRepository.findAll()
-                .stream()
-                .map(charityEvent -> mapper.map(charityEvent, CharityEventCreateServiceModel.class))
-                .collect(Collectors.toList());
+    public List<CharityEvent> getAllCharityEvents() {
+        return this.charityEventRepository.findAll();
     }
 
     @Override
@@ -129,5 +126,19 @@ public class CharityEventServiceImpl implements CharityEventService {
     @Override
     public User getUserByUsername(String username) {
         return this.userRepository.findByUsername(username);
+    }
+
+    @Override
+    public boolean hasTheDatePassed(String endDate) {
+        DateTimeFormatter formatter = dateTimeFormatter();
+        String nowString = LocalDateTime.now().format(formatter);
+        LocalDateTime now = LocalDateTime.parse(nowString, formatter);
+        LocalDateTime endDateTime = LocalDateTime.parse(endDate, formatter);
+        return now.isBefore(endDateTime);
+    }
+
+    public DateTimeFormatter dateTimeFormatter() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        return formatter;
     }
 }

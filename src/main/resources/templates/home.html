@@ -9,8 +9,9 @@
 <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="/../js/showQuotes.js"></script>
 <main>
-    <div class="text-center" sec:authentication="name">
-        Welcome "name.firstName"! Let's help! This is home page!
+    <div class="text-center">
+<!--        Welcome! Let's help! This is home page!-->
+        <h3>Welcome <span sec:authentication="name"></span>! Let's help!</h3>
     </div>
 </main>
 <th:block th:include="~{fragments/footer}" />
@@ -47,6 +48,9 @@
                 }
             });
     }, 3000);
+</script>
+<script>
+    setTimeout( function ( ) { alert( "Did you forget to do something!" ); }, 10000 );
 </script>
 </body>
 </html>

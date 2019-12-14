@@ -31,7 +31,7 @@ public class CausesController extends BaseController {
     @PostMapping("/create")
     public ModelAndView create(@ModelAttribute CauseCreateServiceModel model) {
         causeService.create(model);
-        return super.redirect("/");
+        return super.redirect("/causes/all");
     }
 
     @GetMapping("/all")

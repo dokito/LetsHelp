@@ -6,6 +6,8 @@ import com.dokito.letshelp.errors.AddMoneyCannotBeNegative;
 import com.dokito.letshelp.errors.Constants;
 import com.dokito.letshelp.errors.FundrasingNotFound;
 import com.dokito.letshelp.service.models.create.FundraisingCreateServiceModel;
+import com.dokito.letshelp.service.models.create.FundraisingWithCause;
+import com.dokito.letshelp.service.models.create.FundraisingWithPersonInNeed;
 import com.dokito.letshelp.service.services.FundraisingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -27,13 +29,24 @@ public class FundraisingServiceImpl implements FundraisingService {
     }
 
     @Override
-    public Fundraising create(FundraisingCreateServiceModel model) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        Fundraising fundraising = mapper.map(model, Fundraising.class);
-        fundraising.setCurrentSum(BigDecimal.ZERO);
-        fundraising.setStartDate(LocalDateTime.parse(model.getStartDate(), formatter));
-        fundraising.setEndDate(LocalDateTime.parse(model.getEndDate(), formatter));
-        repository.save(fundraising);
+    public Fundraising create(FundraisingWithCause withCause, FundraisingWithPersonInNeed withPersonInNeed) {
+        Fundraising fundraising = null;
+        if (withCause.getCause() != null && withPersonInNeed.getPersonInNeed() == null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            fundraising = mapper.map(withCause, Fundraising.class);
+            fundraising.setCurrentSum(BigDecimal.ZERO);
+            fundraising.setStartDate(LocalDateTime.parse(withCause.getStartDate(), formatter));
+            fundraising.setEndDate(LocalDateTime.parse(withCause.getEndDate(), formatter));
+            repository.save(fundraising);
+        } else if (withCause.getCause() == null && withPersonInNeed.getPersonInNeed() != null){
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            fundraising = mapper.map(withPersonInNeed, Fundraising.class);
+            fundraising.setCurrentSum(BigDecimal.ZERO);
+            fundraising.setStartDate(LocalDateTime.parse(withPersonInNeed.getStartDate(), formatter));
+            fundraising.setEndDate(LocalDateTime.parse(withPersonInNeed.getEndDate(), formatter));
+            repository.save(fundraising);
+        }
+
         return fundraising;
     }
 

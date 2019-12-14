@@ -26,29 +26,27 @@
             </div>
 
             <div class="text-center">
-                <table>
+                <h1>
+                    Users participating in this event:
                     <th:block th:each="part : ${participants}">
                         <tr>
-                            <td th:text="${part.firstName+' '+part.lastName}">...</td>
+                            <td th:text="${part.firstName+' '+part.lastName}"/>
                         </tr>
                     </th:block>
-                </table>
+                </h1>
             </div>
 
         <form th:action="@{/charityEvents/details/{id}(id=${charityEvent.id})}" method="post">
-            <div class="container">
-                <label for="participantsInEvent" class="mb-1">Charity Event End Date:</label>
-                <input type="text" class="form-control mt-1" id="participantsInEvent" name="participantsInEvent" disabled
-                       th:value="${charityEvent.participantsInEvent.add(user)}">
-            </div>
-            <div class="text-center">
+<!--            <div class="container">-->
+<!--                <label for="participantsInEvent" class="mb-1">Charity Event End Date:</label>-->
+<!--                <input type="text" class="form-control mt-1" id="participantsInEvent" name="participantsInEvent" disabled-->
+<!--                       th:value="${charityEvent.participantsInEvent.add(user)}">-->
+<!--            </div>-->
+            <div class="text-center" th:if="!${hasNotPassed}">
                 <button type="submit" class="btn btn-primary">Join event</button>
             </div>
 
         </form>
-    </div>
-    <div>
-        <h1 th:text="${user.username}"/>
     </div>
 </main>
 

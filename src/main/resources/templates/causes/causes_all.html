@@ -31,7 +31,7 @@
         </th:block>
         </tbody>
     </table>
-    <div class="text-center">
+    <div class="text-center" sec:authorize="hasRole('ROLE_CONTRIBUTOR')">
         <a href="/causes/create"
            class="btn btn-info glow-button font-weight-bold text-white">Create cause</a>
     </div>

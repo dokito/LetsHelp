@@ -17,6 +17,8 @@
             <th class="col-md text-center">End date</th>
             <th class="col-md text-center">Current sum</th>
             <th class="col-md text-center">Required sum</th>
+            <th class="col-md text-center">Cause</th>
+            <th class="col-md text-center">Person in need</th>
             <th class="col-md text-center">Details</th>
         </tr>
         </thead>
@@ -29,6 +31,8 @@
                 <td class="col-md text-center" th:utext="${fundraising.endDate}"></td>
                 <td class="col-md text-center" th:utext="${fundraising.currentSum}"></td>
                 <td class="col-md text-center" th:utext="${fundraising.requiredSum}"></td>
+                <td class="col-md text-center" th:utext="${fundraising?.cause?.name}"></td>
+                <td class="col-md text-center" th:utext="${fundraising?.personInNeed?.name}"></td>
                 <td class="col-md text-center">
                     <a th:href="@{/fundraisings/details/{id}(id=${fundraising.id})}"
                        class="btn btn-secondary glow-button font-weight-bold text-white">Details</a>
@@ -37,7 +41,7 @@
         </th:block>
         </tbody>
     </table>
-    <div class="text-center">
+    <div class="text-center" sec:authorize="hasRole('ROLE_CONTRIBUTOR')">
         <a href="/fundraisings/create"
            class="btn btn-info glow-button font-weight-bold text-white">Create fundraising event</a>
     </div>

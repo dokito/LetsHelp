@@ -17,7 +17,7 @@ public interface CharityEventService {
 
     CharityEvent create(CharityEventCreateModelWithCause modelWithCause, CharityEventCreateModelWithPersonInNeed modelWithPersonInNeed);
 
-    List<CharityEventCreateServiceModel> getAllCharityEvents ();
+    List<CharityEvent> getAllCharityEvents ();
 
     CharityEventServiceModel getCharityEventById(String id);
 
@@ -30,4 +30,6 @@ public interface CharityEventService {
     User getUserById(String id);
 
     User getUserByUsername(String username);
+
+    boolean hasTheDatePassed(String endDate);
 }

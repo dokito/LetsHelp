@@ -8,4 +8,6 @@ public class Constants {
     public final static String USER_ID_NOT_FOUND = "User with this id does not exist";
     public final static String PIN_ID_NOT_FOUND = "Person in need with this id does not exist";
     public final static String CAUSE_ID_NOT_FOUND = "Cause with this id does not exist";
+    public final static String USER_ALREADY_PARTICIPATE_IN_EVENT = "User already participate in this event";
+    public final static String PASSWORD_IS_INCORRECT = "Incorrect password";
 }
