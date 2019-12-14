@@ -36,25 +36,13 @@ class UserServiceTest extends TestBase {
                 () -> userService.getUserById(id));
     }
 
-    @Test()
-    void addEventParticipating() {
-        CharityEvent charityEvent = new CharityEvent();
-        String id = charityEvent.getId();
-        User user = new User();
-
-        assertThrows(UserAlreadyParticipateInEvent.class,
-                () -> userService.addEventParticipating(id, charityEvent, user));
-    }
-
     @Test
-    void deleteUser() {
-    }
+    void loadUserByUsername_shouldThrowExceptionIfNotValidUsername(){
+        String username = "some username";
 
-    @Test
-    void makeAdmin() {
-    }
+        Mockito.when(userRepository.findByUsername(username));
 
-    @Test
-    void makeUser() {
+        assertThrows(Exception.class,
+                () -> userService.loadUserByUsername(username));
     }
 }
